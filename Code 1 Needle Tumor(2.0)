@@ -7,8 +7,8 @@
 % and the needle tumor periphery. The distance between the cavity and the
 % tumor is also calculated. 
 
+
 clear var 
-Raw_Image = []; % Initialize array to store images of tumors 
 outputfolder = uigetdir('C:\Users\Owner\OneDrive\Desktop\Stoll Fellowship Code\','Where would you like to store the converted data?');% Enter output folder
 prompt = 'What name handle would you like to use? (s(number).mat will be added automatically)\\n (enter inside single quotes)\\n';
 dlgtitle = 'Name Handle';
@@ -157,7 +157,7 @@ BWmask = boundarymask(Total_Tumor);
 imshow(BWmask);
     
 Image1_adjust1 = imadjust(Image);
-blocations = bwboundaries(BW2,'noholes');
+blocations = bwboundaries(Total_Tumor,'noholes');
 figure
 imshow(Image1_adjust1, []);
 for ind = 1:numel(blocations)
@@ -240,10 +240,7 @@ end
 imshow(Max_area_thresh);
 Max_area_thresh_BW = imbinarize(Max_area_thresh);
 
-
 savename = strcat(outputfolder,'/',outputname,'tu',num2str(tumors(i)),'_d', num2str(days(k)),'.mat');
-    save(string(savename),'editedMask_cont', 'Periphery', 'Total_Tumor', 'cavity_BW', 'Max_area_thresh', 'distance_to_cav');
+    save(string(savename),'Image','editedMask_cont', 'Periphery', 'Total_Tumor', 'cavity_BW', 'Max_area_thresh_BW', 'distance_to_cav', 'Max_area', 'Max_xcor_cav');
     end
 end 
-
-
