@@ -33,7 +33,15 @@ days_input = inputdlg(prompt, dlgtitle, dims);
 days = str2double(days_input); % Vector of tumor indices that user wants to process
 for i = 1: length(tumors)
     for k = 1: length(days)
-        Raw_Image = importdata(strcat('C:\Users\Owner\OneDrive\Desktop\Stoll Fellowship Code\',ExpID_,'\tu',num2str(tumors(i)),'_d',num2str(days(k)), '.tif')); %add in appropriate file details
+        try
+        Raw_Image = imread(strcat('C:\Users\Owner\OneDrive\Desktop\Stoll Fellowship Code\',ExpID_,'\tu',num2str(tumors(i)),'_d',num2str(days(k)), '.tif'));
+        catch ME
+        fprintf('WEBREAD without success: %s\n', ME.message);
+        continue;  % Jump to next iteration of: for i
+        end
+       fprintf("WEBREAD worked successfully\n");
+       
+        %Raw_Image = importdata(strcat('C:\Users\Owner\OneDrive\Desktop\Stoll Fellowship Code\',ExpID_,'\tu',num2str(tumors(i)),'_d',num2str(days(k)), '.tif')); %add in appropriate file details
         %Ask user if any images need to be rotated in order to have cavity on left side
         figure;
         imshow(imadjust(Raw_Image));
